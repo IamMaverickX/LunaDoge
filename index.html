@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarX (SLX) — Powering the Future on Solana</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-dark: #08080c;
+            --color-accent: #FFD700;
+            --color-text: #f0f0f0;
+            --color-card: #1a1a2e;
+            --font-primary: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            font-family: var(--font-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(8, 8, 12, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .social-nav {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .social-nav a {
+            color: var(--color-text);
+            font-size: 1.2rem;
+            margin: 0 8px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-nav a:hover {
+            color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .buy-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 5rem 5%;
+            text-align: left;
+        }
+
+        .hero-content {
+            max-width: 50%;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: #ccc;
+        }
+
+        .cta-group a {
+            margin-right: 1rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1.5rem;
+        }
+
+        .cta-primary {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            transition: background-color 0.3s;
+        }
+        .cta-primary:hover {
+            background-color: #ffe033;
+        }
+
+        .cta-secondary {
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+            transition: background-color 0.3s;
+        }
+        .cta-secondary:hover {
+             background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .hero-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-icon {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+            to { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+        }
+
+        section {
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--color-accent);
+        }
+
+        .chart-section {
+            background-color: var(--color-card);
+        }
+        .chart-section iframe {
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .tokenomics-section {
+            background-color: var(--color-dark);
+        }
+        
+        .token-address-container {
+            background-color: #1a1a2e;
+            border: 1px solid var(--color-accent);
+            padding: 15px;
+            margin: 1rem auto 3rem;
+            max-width: 800px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .token-address-container p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--color-text);
+        }
+        
+        #tokenAddress {
+            font-family: monospace;
+            color: var(--color-accent);
+            word-break: break-all;
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        
+        .copy-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #ffe033;
+        }
+
+        .token-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            padding: 1rem 2rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            min-width: 200px;
+        }
+
+        .stat-item p { margin: 0; color: #ccc; }
+        .stat-item h3 { margin: 0.5rem 0 0 0; color: var(--color-accent); font-size: 1.5rem; }
+
+        .token-layout {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 5%;
+        }
+
+        .chart-container {
+            width: 40%;
+            max-width: 400px;
+            min-width: 300px;
+            margin-bottom: 2rem;
+        }
+
+        .allocation-table {
+            width: 50%;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .allocation-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-card);
+            border-radius: 8px;
+        }
+
+        .allocation-table th, .allocation-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #2e2e4a;
+        }
+
+        .allocation-table th {
+            color: var(--color-accent);
+            text-transform: uppercase;
+            background-color: #2e2e4a;
+        }
+        .allocation-table tr:last-child td {
+             border-bottom: none;
+        }
+
+        .roadmap-section {
+            background-color: var(--color-card);
+        }
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .phase-card {
+            background-color: var(--color-dark);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--color-accent);
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .phase-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .phase-card:nth-child(1) { transition-delay: 0.1s; }
+        .phase-card:nth-child(2) { transition-delay: 0.3s; }
+        .phase-card:nth-child(3) { transition-delay: 0.5s; }
+        .phase-card:nth-child(4) { transition-delay: 0.7s; }
+
+        .phase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .phase-card h3 {
+            color: var(--color-accent);
+            margin-top: 0;
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+        }
+
+        .modal-content {
+            background-color: var(--color-dark);
+            margin: 5% auto; 
+            padding: 40px;
+            border: 1px solid var(--color-accent);
+            width: 90%;
+            max-width: 1000px; 
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        #whitepaperText h3 {
+            color: var(--color-accent);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.5);
+            padding-bottom: 10px;
+            margin-top: 2rem;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: sticky;
+            top: 10px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--color-accent);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Social Links Section */
+        .social-section {
+            background-color: var(--color-card);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .social-section h2 {
+            color: var(--color-accent);
+            margin-bottom: 2rem;
+        }
+
+        .social-links-text {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-link-item a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .social-link-item a:hover {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* AI Chatbot Styles */
+        .ai-chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+            z-index: 1500;
+            transition: transform 0.2s;
+        }
+        .ai-chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 70vh;
+            background-color: var(--color-card);
+            border: 1px solid var(--color-accent);
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            z-index: 1600;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--color-dark);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: #2e2e4a;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #2e2e4a;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #2e2e4a;
+            border-radius: 20px;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            outline: none;
+        }
+
+        .chatbot-input button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border-top: 1px solid #2e2e4a;
+        }
+
+        .quick-question {
+            background-color: #2e2e4a;
+            border: none;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quick-question:hover {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        footer {
+            padding: 2rem 5%;
+            background-color: var(--color-dark);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #999;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 900px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
+            .token-layout {
+                flex-direction: column;
+            }
+            .chart-container, .allocation-table {
+                width: 100%;
+            }
+            .nav-links {
+                display: none;
+            }
+            .header {
+                padding: 1rem 3%;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .token-address-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            #tokenAddress {
+                padding-right: 0;
+                margin-bottom: 10px;
+            }
+            .chatbot-container {
+                width: 90vw;
+                right: 5vw;
+            }
+            .social-links-text {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">⚡ SolarX ($SLX)</div>
+        <nav class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#roadmap">Roadmap</a>
+            <div class="social-nav">
+                <a href="https://x.com/SolarXCrypto" target="_blank" title="Follow on X"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://t.me/SolarX0fficialSLX" target="_blank" title="Join Telegram"><i class="fab fa-telegram-plane"></i></a>
+            </div>
+        </nav>
+        <a href="https://phantom.com/tokens/solana/ExxYDDqX72Zu8YijyQFicetE8ytsBC2eS6XDpJX7A9sL?referralId=kd7ho34mzw7" target="_blank" class="buy-button">BUY $SLX NOW</a>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1>Powering the Future on <span style="color: var(--color-accent);">Solana</span> ⚡</h1>
+            <p>SolarX is the decentralized, power-themed meme token combining unstoppable energy with real innovation on the world's fastest blockchain.</p>
+            <div class="cta-group">
+                <a href="#chart" class="cta-primary">View Live Chart</a>
+                <a href="#whitepaperModal" class="cta-secondary" id="openWhitepaperHero">Read The SolarX Whitepaper</a>
+            </div>
+        </div>
+        <div class="hero-image">
+             <img src="https://i.postimg.cc/XNxywZdV/IMG-20251029-223856-501.jpg" alt="SolarX Icon" class="project-icon">
+        </div>
+    </section>
+    
+    <section id="chart" class="chart-section">
+        <h2>SLX/SOL Live Price Chart</h2>
+        <iframe src="https://dexscreener.com/solana/ExxYDDqX72Zu8YijyQFicetE8ytsBC2eS6XDpJX7A9sL?embed=1&theme=dark" 
+                width="100%" 
+                height="400" 
+                frameborder="0"
+                allow="clipboard-write">
+        </iframe>
+    </section>
+
+    <section id="tokenomics" class="tokenomics-section">
+        <h2>⚡ Tokenomics — SolarX (SLX)</h2>
+        
+        <div class="token-address-container">
+            <p>Contract Address:</p>
+            <span id="tokenAddress">ExxYDDqX72Zu8YijyQFicetE8ytsBC2eS6XDpJX7A9sL</span>
+            <button class="copy-button" onclick="copyTokenAddress()">Copy</button>
+        </div>
+
+        <div class="token-stats">
+            <div class="stat-item">
+                <p>Total Supply:</p>
+                <h3>1,000,000,000 SLX</h3>
+            </div>
+            <div class="stat-item">
+                <p>Tax Policy:</p>
+                <h3>0% Buy / 0% Sell</h3>
+            </div>
+            <div class="stat-item">
+                <p>Network:</p>
+                <h3>Solana ($SOL)</h3>
+            </div>
+        </div>
+        
+        <div class="token-layout">
+            <div class="chart-container">
+                <canvas id="tokenomicsChart"></canvas>
+            </div>
+            <div class="allocation-table">
+                <table>
+                    <thead><tr><th>Allocation</th><th>Percentage</th><th>Amount (SLX)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Community & Airdrops</td><td>35%</td><td>350,000,000</td></tr>
+                        <tr><td>Liquidity Pool</td><td>25%</td><td>250,000,000</td></tr>
+                        <tr><td>Ecosystem Development</td><td>15%</td><td>150,000,000</td></tr>
+                        <tr><td>Team & Advisors</td><td>10%</td><td>100,000,000</td></tr>
+                        <tr><td>Marketing & Partnerships</td><td>10%</td><td>100,000,000</td></tr>
+                        <tr><td>Treasury Reserve</td><td>5%</td><td>50,000,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <section id="roadmap" class="roadmap-section">
+        <h2>🗓️ Roadmap: Powering the Grid</h2>
+        <div class="roadmap-grid">
+            <div class="phase-card visible"><h3>Phase 1 — Ignition (Q4 2025)</h3><p>Smart contract launch on Solana, Community bootstrapping (Telegram, X), Fair airdrop + liquidity setup, Listing on DEX Screener & Solscan.</p></div>
+            <div class="phase-card visible"><h3>Phase 2 — Surge (Q1 2026)</h3><p>Launch of staking and rewards dashboard, First major meme competition, CEX listing application (minor exchanges), Strategic partnerships.</p></div>
+            <div class="phase-card visible"><h3>Phase 3 — Power Grid (Q2 2026)</h3><p>DAO Governance integration, Release of simple "SolarGrid" dApp (mini-game), Cross-chain bridge exploration (to Ethereum or Base).</p></div>
+            <div class="phase-card visible"><h3>Phase 4 — Solar Expansion (Q3–Q4 2026)</h3><p>Expansion of utilities and integrations, NFT integration — "Power Cells" collection, Real-world tie-ins (charities), Long-term community treasury activation.</p></div>
+        </div>
+    </section>
+
+    <!-- Social Links Section -->
+    <section class="social-section">
+        <h2>Join Our Community</h2>
+        <div class="social-links-text">
+            <div class="social-link-item">
+                <a href="https://x.com/SolarXCrypto" target="_blank">Follow us on X</a>
+                <p>Stay updated with the latest news and announcements</p>
+            </div>
+            <div class="social-link-item">
+                <a href="https://t.me/SolarX0fficialSLX" target="_blank">Join our Telegram</a>
+                <p>Connect with the community and get real-time updates</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 SolarX ($SLX). All rights reserved. | Built on Solana 🚀</p>
+            <p>Contact: <a href="mailto:contact@solarxcrypto.com" style="color: #999; text-decoration: none;">contact@solarxcrypto.com</a></p>
+        </div>
+    </footer>
+
+    <div id="whitepaperModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="whitepaperText">
+                <h3>🚀 SolarX (SLX) Whitepaper</h3>
+                
+                <p>SolarX (SLX) is a decentralized, power-themed memecoin built on the Solana blockchain — the world's fastest and most energy-efficient network. It represents the fusion of energy, community, and creativity — where memes become the fuel for collective growth and innovation.</p>
+                <p>SolarX captures the spirit of the Web3 era: a community-powered token that proves fun and creativity can build powerful movements without needing complex utilities.</p>
+                
+                <h3>⚡ Vision</h3>
+                <p>To power the future of the Solana meme ecosystem through community-driven energy, culture, and shared purpose — proving that memes are the new digital energy.</p>
+                
+                <h3>💡 Mission</h3>
+                <p>SolarX exists to ignite excitement, spread positive energy, and unite the meme community on Solana. We believe that true value in Web3 doesn't only come from utilities or complex token mechanics — it comes from people, culture, and shared belief.</p>
+                
+                <h3>🌞 Why "SolarX"?</h3>
+                <p>The "Solar" concept reflects endless energy, brightness, and momentum — just like our community. The "X" stands for expansion — across Solana, across culture, and across the digital landscape of meme innovation. Together, SolarX means "The Power of the People."</p>
+                
+                <h3>⚙️ Built on Solana</h3>
+                <p>SolarX runs fully on Solana, chosen for: <strong>High Speed:</strong> Up to 65,000 transactions per second. <strong>Low Fees:</strong> Almost zero gas costs. <strong>Eco-Friendliness:</strong> Uses less energy than traditional blockchains. <strong>Massive Ecosystem:</strong> Seamless integration with DEXs, wallets, and meme communities.</p>
+                
+                <h3>🔥 Core Values</h3>
+                <ul>
+                    <li><strong>Community First:</strong> Everything revolves around our holders.</li>
+                    <li><strong>Transparency:</strong> All movements are on-chain and visible.</li>
+                    <li><strong>Fun & Freedom:</strong> A memecoin built purely for culture, laughter, and vibes.</li>
+                    <li><strong>Sustainability:</strong> No pump-and-dump — only steady, organic growth powered by community.</li>
+                </ul>
+                
+                <h3>💰 Tokenomics Summary</h3>
+                <p>Total Supply: 1,000,000,000 SLX (Fixed Supply)</p>
+                <p><strong>Tax Policy:</strong> Buy/Sell Tax: 0% | Transfer Tax: 0% (Pure memecoin, zero barriers — fast and fair for everyone.)</p>
+                <p><strong>Supply Control:</strong> No hidden minting functions. Contract verified and renounced. LP tokens locked for security and trust.</p>
+                
+                <h3>🧠 Governance</h3>
+                <p>SolarX will evolve into a DAO model, where the community decides how treasury funds are used — from marketing campaigns to partnership decisions. Your voice matters. Every SLX holder contributes to the project's direction.</p>
+                
+                <h3>🔒 Security & Transparency</h3>
+                <ul>
+                    <li><strong>Liquidity Locked:</strong> Prevents rug pulls and ensures long-term liquidity.</li>
+                    <li><strong>Contract Verified:</strong> Open-source and accessible for public review.</li>
+                    <li><strong>No Hidden Mints:</strong> Supply is capped and cannot be altered.</li>
+                    <li><strong>Team Vesting:</strong> Ensures fair commitment and trust (12 months linear unlock).</li>
+                </ul>
+
+                <h3>⚡ Conclusion</h3>
+                <p>SolarX (SLX) is not just another memecoin — it's a movement of energy and creativity powered by the community. We're here to prove that vibes can move markets and that fun can still be powerful in the decentralized world. Join the revolution. Harness the power. Be part of SolarX (SLX).</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Chatbot -->
+    <button id="aiChatbotButton" class="ai-chatbot-icon">🤖</button>
+    
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            SolarX AI Assistant
+            <button class="chatbot-close" id="chatbotClose">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                Hello! I'm the SolarX AI assistant. How can I help you learn about our project today?
+            </div>
+        </div>
+        <div class="quick-questions">
+            <button class="quick-question" data-question="What is SolarX?">What is SolarX?</button>
+            <button class="quick-question" data-question="How to buy SLX?">How to buy?</button>
+            <button class="quick-question" data-question="Tokenomics">Tokenomics</button>
+            <button class="quick-question" data-question="Roadmap">Roadmap</button>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Ask me about SolarX...">
+            <button id="sendMessage">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Global function for the copy button
+        function copyTokenAddress() {
+            const tokenAddress = document.getElementById("tokenAddress").textContent;
+            navigator.clipboard.writeText(tokenAddress).then(() => {
+                alert("Token Address copied to clipboard!");
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy address. Please copy it manually.');
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. TOKENOMICS PIE CHART (using Chart.js)
+            const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+            const tokenomicsChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Community & Airdrops', 'Liquidity Pool', 'Ecosystem Development', 'Team & Advisors', 'Marketing & Partnerships', 'Treasury Reserve'],
+                    datasets: [{
+                        data: [35, 25, 15, 10, 10, 5],
+                        backgroundColor: [
+                            '#FFD700', // Gold
+                            '#FFA500', // Orange
+                            '#FF6347', // Tomato
+                            '#1E90FF', // DodgerBlue
+                            '#32CD32', // LimeGreen
+                            '#9370DB'  // MediumPurple
+                        ],
+                        borderColor: '#08080c',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#f0f0f0',
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 2. WHITEPAPER MODAL FUNCTIONALITY
+            const modal = document.getElementById("whitepaperModal");
+            const openButton = document.getElementById("openWhitepaperHero");
+            const closeButton = document.querySelector(".close-button");
+            
+            // Open modal when whitepaper button is clicked
+            openButton.addEventListener('click', function() {
+                modal.style.display = "block";
+            });
+            
+            // Close modal when X is clicked
+            closeButton.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+            
+            // 3. ROADMAP ANIMATION ON SCROLL
+            const roadmapCards = document.querySelectorAll('.phase-card');
+            
+            // Create an Intersection Observer to detect when roadmap cards enter viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe each roadmap card
+            roadmapCards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // 4. AI CHATBOT FUNCTIONALITY
+            const chatbotButton = document.getElementById('aiChatbotButton');
+            const chatbotContainer = document.getElementById('chatbotContainer');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const sendMessageButton = document.getElementById('sendMessage');
+            const quickQuestions = document.querySelectorAll('.quick-question');
+            
+            // Toggle chatbot visibility
+            chatbotButton.addEventListener('click', function() {
+                chatbotContainer.style.display = 'flex';
+            });
+            
+            chatbotClose.addEventListener('click', function() {
+                chatbotContainer.style.display = 'none';
+            });
+            
+            // Send message function
+            function sendMessage() {
+                const message = chatbotInput.value.trim();
+                if (message === '') return;
+                
+                // Add user message
+                addMessage(message, 'user');
+                chatbotInput.value = '';
+                
+                // Generate and add bot response
+                setTimeout(() => {
+                    const response = generateResponse(message);
+                    addMessage(response, 'bot');
+                }, 500);
+            }
+            
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+                messageDiv.textContent = text;
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+            
+            // Generate bot response
+            function generateResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('what is') || lowerMessage.includes('solarx')) {
+                    return "SolarX (SLX) is a decentralized, power-themed memecoin built on Solana. It combines unstoppable energy with real innovation on the world's fastest blockchain.";
+                } else if (lowerMessage.includes('buy') || lowerMessage.includes('purchase') || lowerMessage.includes('how to')) {
+                    return "You can buy SLX on Solana DEXs like Raydium or Jupiter. Use the contract address: ExxYDDqX72Zu8YijyQFicetE8ytsBC2eS6XDpJX7A9sL. Always verify the contract before purchasing!";
+                } else if (lowerMessage.includes('tokenomic') || lowerMessage.includes('supply') || lowerMessage.includes('allocation')) {
+                    return "Total supply: 1,000,000,000 SLX. Allocation: 35% Community & Airdrops, 25% Liquidity Pool, 15% Ecosystem Development, 10% Team & Advisors, 10% Marketing, 5% Treasury. 0% buy/sell tax!";
+                } else if (lowerMessage.includes('roadmap') || lowerMessage.includes('plan') || lowerMessage.includes('future')) {
+                    return "Our roadmap has 4 phases: 1) Ignition - Launch & community building, 2) Surge - Staking & partnerships, 3) Power Grid - DAO & dApp, 4) Solar Expansion - NFTs & real-world integration.";
+                } else if (lowerMessage.includes('contract') || lowerMessage.includes('address')) {
+                    return "The SolarX contract address is: ExxYDDqX72Zu8YijyQFicetE8ytsBC2eS6XDpJX7A9sL. Always verify this address on official channels before transactions.";
+                } else if (lowerMessage.includes('solana') || lowerMessage.includes('blockchain')) {
+                    return "SolarX is built on Solana for its high speed (65k TPS), low fees, and eco-friendly design. It's the perfect blockchain for our energy-themed project!";
+                } else if (lowerMessage.includes('community') || lowerMessage.includes('social')) {
+                    return "Join our community on X: https://x.com/SolarXCrypto and Telegram: https://t.me/SolarX0fficialSLX for the latest updates and announcements!";
+                } else if (lowerMessage.includes('team') || lowerMessage.includes('developer')) {
+                    return "Our team is composed of experienced blockchain developers and community managers dedicated to making SolarX a success. Team tokens are vested for 12 months.";
+                } else if (lowerMessage.includes('airdrop') || lowerMessage.includes('reward')) {
+                    return "35% of tokens are allocated for community airdrops and rewards. Follow our social media for announcements about upcoming airdrop events!";
+                } else {
+                    return "I'm here to help you learn about SolarX! You can ask me about: what SolarX is, how to buy SLX, tokenomics, roadmap, contract address, or our community.";
+                }
+            }
+            
+            // Event listeners for chatbot
+            sendMessageButton.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Quick question buttons
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    chatbotInput.value = question;
+                    sendMessage();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
