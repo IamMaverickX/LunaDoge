@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LunaDoge (LND) — Where the Moon Meets the Doge on Solana 🚀</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Variables for Space/Lunar Theme */
+        :root {
+            --color-dark: #000022; /* Deep space blue/black background */
+            --color-accent: #00BFFF; /* Deep Sky Blue for space/moon highlight */
+            --color-text: #f0f8ff; /* Alice Blue */
+            --color-card: #0a0a30;
+            --font-primary: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            font-family: var(--font-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Header & Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(0, 0, 34, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-accent);
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .buy-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.5);
+        }
+
+        /* Hero Section with Animation */
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 5rem 5%;
+            text-align: left;
+        }
+
+        .hero-content {
+            max-width: 50%;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: #b0c4de; /* Light Slate Gray */
+        }
+
+        .cta-group a {
+            margin-right: 1rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1.5rem;
+        }
+
+        .cta-primary {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            transition: background-color 0.3s;
+        }
+        .cta-primary:hover {
+            background-color: #4ddbff;
+        }
+
+        .cta-secondary {
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+            transition: background-color 0.3s;
+        }
+        .cta-secondary:hover {
+             background-color: rgba(0, 191, 255, 0.1);
+        }
+
+        .hero-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-icon {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Lunar glow effect */
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { box-shadow: 0 0 10px rgba(0, 191, 255, 0.2); }
+            to { box-shadow: 0 0 30px rgba(0, 191, 255, 0.6); }
+        }
+
+        /* General Section Styling */
+        section {
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--color-accent);
+        }
+
+        /* Live Chart Section */
+        .chart-section {
+            background-color: var(--color-card);
+        }
+        
+        .chart-placeholder {
+            background-color: var(--color-dark);
+            border: 2px dashed var(--color-accent);
+            border-radius: 12px;
+            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .chart-placeholder i {
+            font-size: 4rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tokenomics Section */
+        .tokenomics-section {
+            background-color: var(--color-dark);
+        }
+        
+        /* Token Address Display */
+        .token-address-container {
+            background-color: #0a0a30;
+            border: 1px solid var(--color-accent);
+            padding: 15px;
+            margin: 1rem auto 3rem;
+            max-width: 800px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .token-address-container p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--color-text);
+        }
+        
+        #tokenAddress {
+            font-family: monospace;
+            color: var(--color-accent);
+            word-break: break-all;
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        
+        .copy-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #4ddbff;
+        }
+
+        .token-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            padding: 1rem 2rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            min-width: 200px;
+        }
+
+        .stat-item p { margin: 0; color: #ccc; }
+        .stat-item h3 { margin: 0.5rem 0 0 0; color: var(--color-accent); font-size: 1.5rem; }
+
+        .token-layout {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 5%;
+        }
+
+        .chart-container {
+            width: 40%;
+            max-width: 400px;
+            min-width: 300px;
+            margin-bottom: 2rem;
+        }
+
+        .allocation-table {
+            width: 50%;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .allocation-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-card);
+            border-radius: 8px;
+        }
+
+        .allocation-table th, .allocation-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #1a1a4c;
+        }
+
+        .allocation-table th {
+            color: var(--color-accent);
+            text-transform: uppercase;
+            background-color: #1a1a4c;
+        }
+        .allocation-table tr:last-child td {
+             border-bottom: none;
+        }
+
+        .whitepaper-button {
+            cursor: pointer;
+            background-color: #3b3b6b;
+            color: var(--color-text);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: bold;
+        }
+
+        .whitepaper-button:hover {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            background-color: var(--color-card);
+        }
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .phase-card {
+            background-color: var(--color-dark);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--color-accent);
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0; /* For JavaScript animation */
+            transform: translateY(20px); /* For JavaScript animation */
+        }
+
+        .phase-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .phase-card:nth-child(1) { transition-delay: 0.1s; }
+        .phase-card:nth-child(2) { transition-delay: 0.3s; }
+        .phase-card:nth-child(3) { transition-delay: 0.5s; }
+        .phase-card:nth-child(4) { transition-delay: 0.7s; }
+
+        .phase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .phase-card h3 {
+            color: var(--color-accent);
+            margin-top: 0;
+        }
+
+        /* Whitepaper Modal (Modal styles for space/dark theme) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.85); 
+        }
+
+        .modal-content {
+            background-color: var(--color-dark);
+            margin: 5% auto; 
+            padding: 40px;
+            border: 1px solid var(--color-accent);
+            width: 90%;
+            max-width: 1000px; 
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        #whitepaperText h3 {
+            color: var(--color-accent);
+            border-bottom: 2px solid rgba(0, 191, 255, 0.5);
+            padding-bottom: 10px;
+            margin-top: 2rem;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: sticky;
+            top: 10px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--color-accent);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* AI Chatbot Styles */
+        .ai-chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.6);
+            z-index: 1500;
+            transition: transform 0.2s;
+        }
+        .ai-chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: var(--color-card);
+            border: 1px solid var(--color-accent);
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            z-index: 1600;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: var(--color-dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: #1a1a4c;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--color-accent);
+            border-radius: 20px;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            outline: none;
+        }
+
+        .send-button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Footer & Social Media */
+        footer {
+            padding: 2rem 5%;
+            background-color: var(--color-card);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--color-text);
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            color: var(--color-accent);
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #99a;
+            margin: 0.5rem 0;
+        }
+
+
+        /* Responsiveness */
+        @media (max-width: 900px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
+            .token-layout {
+                flex-direction: column;
+            }
+            .chart-container, .allocation-table {
+                width: 100%;
+            }
+            .nav-links {
+                display: none;
+            }
+            .header {
+                padding: 1rem 3%;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .token-address-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            #tokenAddress {
+                padding-right: 0;
+                margin-bottom: 10px;
+            }
+            .ai-chatbot-container {
+                width: 300px;
+                height: 400px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">🐶 LunaDoge ($LND) 🌕</div>
+        <nav class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="https://x.com/LunaDoge0001?t=kTsGcwKjL_AK6tfKRbeiuA&s=09" target="_blank">X</a> 
+            <a href="https://t.me/Lunadoge" target="_blank">Telegram</a>
+        </nav>
+        <a href="#tokenomics" class="buy-button">BUY $LND NOW</a> 
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1>Where the <span style="color: var(--color-accent);">Moon</span> Meets the <span style="color: #FFB347;">Doge</span>! 🚀</h1>
+            <p>LunaDoge ($LND) is a next-generation meme + utility token built on Solana — combining community power, humor, and space vibes 🌌</p>
+            <div class="cta-group">
+                <a href="#tokenomics" class="cta-primary">View Tokenomics</a>
+                <a href="https://t.me/Lunadoge" target="_blank" class="cta-secondary">Join Telegram</a>
+            </div>
+        </div>
+        <div class="hero-image">
+             <img src="https://i.postimg.cc/x11hPJN8/IMG-20251101-094428-402.jpg" alt="LunaDoge Icon" class="project-icon">
+        </div>
+    </section>
+    
+    <section id="chart" class="chart-section">
+        <h2>LND/SOL Live Price Chart</h2>
+        <div class="chart-placeholder">
+            <i class="fas fa-chart-line"></i>
+            <h3>Chart Coming Soon</h3>
+            <p>Once the LunaDoge token is launched, we'll integrate a live price chart here.</p>
+            <p>Stay tuned for updates in our Telegram community!</p>
+        </div>
+    </section>
+
+    <section id="tokenomics" class="tokenomics-section">
+        <h2>💎 Tokenomics — LunaDoge (LND)</h2>
+        
+        <div class="token-address-container">
+            <p>Contract Address:</p>
+            <span id="tokenAddress">Coming Soon</span>
+            <button class="copy-button" onclick="copyTokenAddress()">Copy</button>
+        </div>
+
+        <div class="token-stats">
+            <div class="stat-item">
+                <p>Total Supply:</p>
+                <h3>1,000,000,000 LND</h3>
+            </div>
+            <div class="stat-item">
+                <p>Tax Policy:</p>
+                <h3>0% Buy / 0% Sell</h3>
+            </div>
+            <div class="stat-item">
+                <p>Network:</p>
+                <h3>Solana ($SOL)</h3>
+            </div>
+        </div>
+        
+        <div class="token-layout">
+            <div class="chart-container">
+                <canvas id="tokenomicsChart"></canvas>
+            </div>
+            <div class="allocation-table">
+                <table>
+                    <thead><tr><th>Allocation</th><th>Percentage</th><th>Amount (LND)</th><th>Purpose</th></tr></thead>
+                    <tbody>
+                        <tr><td>Community & Airdrops</td><td>40%</td><td>400,000,000</td><td>Reward early adopters & creators.</td></tr>
+                        <tr><td>Liquidity Pool</td><td>25%</td><td>250,000,000</td><td>Locked for stability & trust.</td></tr>
+                        <tr><td>Development & Utility</td><td>15%</td><td>150,000,000</td><td>Future dApps and staking models.</td></tr>
+                        <tr><td>Team & Advisors</td><td>10%</td><td>100,000,000</td><td>Locked with vesting for commitment.</td></tr>
+                        <tr><td>Marketing & Partnerships</td><td>10%</td><td>100,000,000</td><td>Influencer pushes & collabs.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button id="openWhitepaper" class="whitepaper-button">Read The LunaDoge Whitepaper</button>
+    </section>
+    
+    <section id="roadmap" class="roadmap-section">
+        <h2>🗓️ Roadmap: Aiming for the Moon</h2>
+        <div class="roadmap-grid">
+            <div class="phase-card visible"><h3>Phase 1 — Liftoff (Q4 2025)</h3><p>Smart contract deployment, Community launch (Telegram + X), Fair airdrop, Meme campaign: "To the Moon with Doge!", Listing on DEX Screener & Solscan.</p></div>
+            <div class="phase-card visible"><h3>Phase 2 — Orbit (Q1 2026)</h3><p>First meme challenge/contests, Major marketing collaborations, Strategic Solana partnerships, Small CEX listing applications, LND staking program planning.</p></div>
+            <div class="phase-card visible"><h3>Phase 3 — Moon Phase (Q2 2026)</h3><p>Launch of LunaDAO (governance model), NFT collection: "Doge Astronauts", Staking rewards or small utility integration (e.g., meme-to-earn).</p></div>
+            <div class="phase-card visible"><h3>Phase 4 — Lunar Expansion (Q3-Q4 2026)</h3><p>Utility rollout and cross-chain exploration, Tier 1 exchange listings, Charity partnerships (animal/space), Strengthened global brand presence.</p></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://x.com/LunaDoge0001?t=kTsGcwKjL_AK6tfKRbeiuA&s=09" target="_blank">X</a>
+                <a href="https://t.me/Lunadoge" target="_blank">Telegram</a>
+            </div>
+            
+            <p>&copy; 2025 LunaDoge ($LND). All rights reserved. | Built on Solana 🚀</p>
+            <p>Governance: LunaDoge is transitioning to LunaDAO.</p>
+        </div>
+    </footer>
+
+    <div id="whitepaperModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="whitepaperText">
+                <h3>🐶 LunaDoge (LND) Whitepaper 🌕</h3>
+                
+                <p>LunaDoge (LND) is a next-generation meme + utility token built on the Solana blockchain, uniting the power of the Moon with the legendary spirit of Doge. It's more than just a token — it's a movement built around community, fun, and purpose.</p>
+                <p>LunaDoge embodies the energy of a growing decentralized culture that thrives on humor, unity, and innovation — with real use cases planned for the Solana ecosystem.</p>
+                
+                <h3>🚀 Vision</h3>
+                <p>To create the strongest meme-powered community on Solana — one that shoots for the moon and builds a lasting presence in both meme culture and real Web3 applications.</p>
+                
+                <h3>💫 Mission</h3>
+                <p>LunaDoge's mission is simple: To combine meme energy, utility, and community into one unstoppable force that aims straight for the moon. Our focus is on fun, transparency, and real engagement — not empty hype.</p>
+                
+                <h3>🪙 Why LunaDoge?</h3>
+                <p>Luna — represents ambition, exploration, and limitless potential.</p>
+                <p>Doge — the symbol of meme power and internet unity.</p>
+                <p>Together, LunaDoge stands for "Humor meets Horizons" — a project that blends laughter, innovation, and collective belief into one orbiting ecosystem.</p>
+                
+                <h3>⚙️ Built on Solana</h3>
+                <p>LunaDoge is powered by Solana, known for: <strong>Lightning-fast transaction speeds (up to 65,000 TPS)</strong>, <strong>Low gas fees</strong> — making LND accessible to everyone, <strong>Eco-friendly consensus model</strong>, and a <strong>Growing ecosystem</strong> of dApps, DEXs, and NFT communities.</p>
+                
+                <h3>💎 Tokenomics Summary</h3>
+                <p>Total Supply: 1,000,000,000 LND (Fixed, no minting after launch)</p>
+                <ul>
+                    <li>Community & Airdrops: 40% (400,000,000 LND)</li>
+                    <li>Liquidity Pool: 25% (250,000,000 LND)</li>
+                    <li>Development & Utility: 15% (150,000,000 LND)</li>
+                    <li>Team & Advisors: 10% (100,000,000 LND)</li>
+                    <li>Marketing & Partnerships: 10% (100,000,000 LND)</li>
+                </ul>
+                <p><strong>Tax Policy:</strong> 0% Buy / 0% Sell / 0% Transfer. Liquidity Locked. Contract Renounced.</p>
+                
+                <h3>🧠 Governance</h3>
+                <p>LunaDoge will transition into a community-governed LunaDAO where token holders help shape the future — from funding campaigns to partnership decisions. Every LND holder will have a voice in the next direction of the moon mission.</p>
+                
+                <h3>🔒 Security & Transparency</h3>
+                <ul>
+                    <li><strong>Contract Verified:</strong> Fully transparent and open-source.</li>
+                    <li><strong>Liquidity Locked:</strong> Prevents rug pulls and builds trust.</li>
+                    <li><strong>No Hidden Mints:</strong> Supply fixed forever.</li>
+                    <li><strong>Team Vesting:</strong> Gradual unlocks to ensure long-term dedication.</li>
+                </ul>
+
+                <h3>🌕 Conclusion</h3>
+                <p>LunaDoge (LND) is a celebration of meme culture, lunar ambition, and Solana innovation — all powered by community energy. We're here to laugh, build, and grow together while reaching new heights in the Web3 space. Join the movement. Aim for the moon. Be a part of LunaDoge. 🐶🚀</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Chatbot Interface -->
+    <div id="aiChatbotContainer" class="ai-chatbot-container">
+        <div class="chat-header">
+            <span>LunaDoge Assistant</span>
+            <button class="close-chat">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hello! I'm the LunaDoge AI assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask about LunaDoge...">
+            <button class="send-button" id="sendButton">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    
+    <button id="aiChatbotButton" class="ai-chatbot-icon">🤖</button>
+
+    <script>
+        // Global function for the copy button
+        function copyTokenAddress() {
+            const tokenAddress = document.getElementById("tokenAddress").textContent;
+            // Check if the address is the placeholder before copying
+            if (tokenAddress === 'Coming Soon') {
+                 alert("Contract address will be available soon! Stay tuned for updates.");
+                 return;
+            }
+
+            navigator.clipboard.writeText(tokenAddress).then(() => {
+                alert("Token Address copied to clipboard!");
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy address. Please copy it manually.');
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. TOKENOMICS PIE CHART (using Chart.js)
+            const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+            const tokenData = {
+                labels: ['Community & Airdrops (40%)', 'Liquidity Pool (25%)', 'Development & Utility (15%)', 'Team & Advisors (10%)', 'Marketing & Partnerships (10%)'],
+                datasets: [{
+                    data: [40, 25, 15, 10, 10],
+                    // Colors for a space/lunar theme
+                    backgroundColor: [
+                        '#00BFFF', // Deep Sky Blue (Accent)
+                        '#ADD8E6', // Light Blue
+                        '#4682B4', // Steel Blue
+                        '#778899', // Light Slate Gray
+                        '#FFB347'  // Yellow/Orange (Doge accent)
+                    ],
+                    hoverOffset: 10
+                }]
+            };
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: tokenData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#f0f8ff', // Text color for labels
+                                font: { size: 14 }
+                            }
+                        },
+                        title: {
+                            display: false,
+                        }
+                    }
+                }
+            });
+
+            // 2. WHITE PAPER MODAL LOGIC
+            const modal = document.getElementById("whitepaperModal");
+            const btn = document.getElementById("openWhitepaper");
+            const span = document.getElementsByClassName("close-button")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            
+            // 3. AI Chatbot Functionality
+            const chatbotBtn = document.getElementById('aiChatbotButton');
+            const chatbotContainer = document.getElementById('aiChatbotContainer');
+            const closeChatBtn = document.querySelector('.close-chat');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            
+            // Toggle chatbot visibility
+            chatbotBtn.onclick = function() {
+                chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
+            }
+            
+            // Close chatbot
+            closeChatBtn.onclick = function() {
+                chatbotContainer.style.display = 'none';
+            }
+            
+            // Send message function
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+                
+                // Add user message
+                addMessage(message, 'user');
+                chatInput.value = '';
+                
+                // Simulate typing delay
+                setTimeout(() => {
+                    // Generate bot response
+                    const botResponse = generateBotResponse(message);
+                    addMessage(botResponse, 'bot');
+                }, 1000);
+            }
+            
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+                messageElement.textContent = text;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Generate bot responses
+            function generateBotResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('token') || lowerMessage.includes('lnd')) {
+                    return "LunaDoge (LND) is a meme + utility token on Solana with 1B total supply and 0% taxes. Contract address coming soon!";
+                } else if (lowerMessage.includes('buy') || lowerMessage.includes('purchase')) {
+                    return "You'll be able to buy LND once the token is launched. Stay tuned to our Telegram for updates!";
+                } else if (lowerMessage.includes('roadmap') || lowerMessage.includes('plan')) {
+                    return "Our roadmap has 4 phases: Liftoff (Q4 2025), Orbit (Q1 2026), Moon Phase (Q2 2026), and Lunar Expansion (Q3-Q4 2026).";
+                } else if (lowerMessage.includes('team') || lowerMessage.includes('who')) {
+                    return "LunaDoge is a community-driven project. The team tokens are locked with vesting to ensure long-term commitment.";
+                } else if (lowerMessage.includes('solana') || lowerMessage.includes('blockchain')) {
+                    return "LunaDoge is built on Solana for its speed (65K TPS), low fees, and eco-friendly consensus model.";
+                } else if (lowerMessage.includes('airdrop') || lowerMessage.includes('free')) {
+                    return "We have airdrops planned for early supporters! Join our Telegram to stay updated on airdrop announcements.";
+                } else if (lowerMessage.includes('utility') || lowerMessage.includes('use')) {
+                    return "LunaDoge will have staking, governance (LunaDAO), and NFT utilities in development. More details coming soon!";
+                } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                    return "Hello! Welcome to LunaDoge - where the moon meets the doge! How can I help you today?";
+                } else if (lowerMessage.includes('help')) {
+                    return "I can answer questions about LunaDoge tokenomics, roadmap, how to buy, airdrops, and more. What would you like to know?";
+                } else {
+                    return "I'm not sure about that. You can ask me about LunaDoge tokenomics, roadmap, or how to get involved with our community!";
+                }
+            }
+            
+            // Event listeners for chatbot
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // 4. ANIMATION LOGIC (Basic Scroll Reveal - for roadmap)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll('.phase-card').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
