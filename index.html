@@ -166,19 +166,13 @@
             background-color: var(--color-card);
         }
         
-        .chart-placeholder {
-            background-color: var(--color-dark);
-            border: 2px dashed var(--color-accent);
+        .chart-container {
             border-radius: 12px;
-            padding: 4rem 2rem;
-            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 1200px;
             margin: 0 auto;
-        }
-        
-        .chart-placeholder i {
-            font-size: 4rem;
-            color: var(--color-accent);
-            margin-bottom: 1.5rem;
+            display: block;
+            overflow: hidden;
         }
 
         /* Tokenomics Section */
@@ -254,7 +248,7 @@
             gap: 5%;
         }
 
-        .chart-container {
+        .chart-container-token {
             width: 40%;
             max-width: 400px;
             min-width: 300px;
@@ -558,7 +552,7 @@
             .token-layout {
                 flex-direction: column;
             }
-            .chart-container, .allocation-table {
+            .chart-container-token, .allocation-table {
                 width: 100%;
             }
             .nav-links {
@@ -605,7 +599,7 @@
             <h1>Where the <span style="color: var(--color-accent);">Moon</span> Meets the <span style="color: #FFB347;">Doge</span>! 🚀</h1>
             <p>LunaDoge ($LND) is a next-generation meme + utility token built on Solana — combining community power, humor, and space vibes 🌌</p>
             <div class="cta-group">
-                <a href="#tokenomics" class="cta-primary">View Tokenomics</a>
+                <a href="#chart" class="cta-primary">View Live Chart</a>
                 <a href="https://t.me/Lunadoge" target="_blank" class="cta-secondary">Join Telegram</a>
             </div>
         </div>
@@ -616,12 +610,13 @@
     
     <section id="chart" class="chart-section">
         <h2>LND/SOL Live Price Chart</h2>
-        <div class="chart-placeholder">
-            <i class="fas fa-chart-line"></i>
-            <h3>Chart Coming Soon</h3>
-            <p>Once the LunaDoge token is launched, we'll integrate a live price chart here.</p>
-            <p>Stay tuned for updates in our Telegram community!</p>
-        </div>
+        <iframe src="https://dexscreener.com/solana/Fkpiot91Ga8JPaqGqEMbEQTSY5frGkTyKZXmWbS98ray?embed=1&theme=dark" 
+                width="100%" 
+                height="400" 
+                frameborder="0"
+                allow="clipboard-write"
+                class="chart-container">
+        </iframe>
     </section>
 
     <section id="tokenomics" class="tokenomics-section">
@@ -629,7 +624,7 @@
         
         <div class="token-address-container">
             <p>Contract Address:</p>
-            <span id="tokenAddress">Coming Soon</span>
+            <span id="tokenAddress">Fkpiot91Ga8JPaqGqEMbEQTSY5frGkTyKZXmWbS98ray</span>
             <button class="copy-button" onclick="copyTokenAddress()">Copy</button>
         </div>
 
@@ -649,7 +644,7 @@
         </div>
         
         <div class="token-layout">
-            <div class="chart-container">
+            <div class="chart-container-token">
                 <canvas id="tokenomicsChart"></canvas>
             </div>
             <div class="allocation-table">
@@ -766,12 +761,7 @@
         // Global function for the copy button
         function copyTokenAddress() {
             const tokenAddress = document.getElementById("tokenAddress").textContent;
-            // Check if the address is the placeholder before copying
-            if (tokenAddress === 'Coming Soon') {
-                 alert("Contract address will be available soon! Stay tuned for updates.");
-                 return;
-            }
-
+            
             navigator.clipboard.writeText(tokenAddress).then(() => {
                 alert("Token Address copied to clipboard!");
             }).catch(err => {
@@ -892,9 +882,9 @@
                 const lowerMessage = userMessage.toLowerCase();
                 
                 if (lowerMessage.includes('token') || lowerMessage.includes('lnd')) {
-                    return "LunaDoge (LND) is a meme + utility token on Solana with 1B total supply and 0% taxes. Contract address coming soon!";
+                    return "LunaDoge (LND) is a meme + utility token on Solana with 1B total supply and 0% taxes. Contract address: Fkpiot91Ga8JPaqGqEMbEQTSY5frGkTyKZXmWbS98ray";
                 } else if (lowerMessage.includes('buy') || lowerMessage.includes('purchase')) {
-                    return "You'll be able to buy LND once the token is launched. Stay tuned to our Telegram for updates!";
+                    return "You can buy LND on Solana DEXs using the contract address: Fkpiot91Ga8JPaqGqEMbEQTSY5frGkTyKZXmWbS98ray";
                 } else if (lowerMessage.includes('roadmap') || lowerMessage.includes('plan')) {
                     return "Our roadmap has 4 phases: Liftoff (Q4 2025), Orbit (Q1 2026), Moon Phase (Q2 2026), and Lunar Expansion (Q3-Q4 2026).";
                 } else if (lowerMessage.includes('team') || lowerMessage.includes('who')) {
